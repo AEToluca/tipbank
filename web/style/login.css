@@ -1,0 +1,27 @@
+h1 {
+text-align: center;
+font-size: 7em;
+text-decoration: overline underline;
+text-decoration-color: green;
+text-decoration-style: double;
+}
+form {
+text-align: center;
+}
+label {
+text-align: center;
+font-size: 3em;
+text-shadow: 4px 2px gray;
+
+}
+input {
+font-size: 1em;
+}
+button{
+font-size: 2em;
+margin-top: 20px;
+background-color:chartreuse;
+}
+button:hover {
+background-color:darkolivegreen;
+}
