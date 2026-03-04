@@ -1,0 +1,31 @@
+--Data needed per check
+Party Size
+Table Number
+Bill Before Tip
+Tip amount
+Tip type (Credit, UPNGO, Cash)
+Check seperate or together
+--Data needed daily
+Date
+AM/PM
+--Data to be generated 
+Total Cash made
+Total Credit made
+Total UPNGO made
+Most sat table
+Total tips made
+Average tip percentage of the day
+Tip percentage per check
+--General information wanted
+Average tip percentage
+
+
+
+
+
+
+
+
+
+[UserID@estradaae] cs3482@cs.appstate.edu
+

@@ -18,24 +18,21 @@ try:
     )
     print("Connected to MySQL successfully.")
 except Error as e:
-    print(f"Error connecting to MySQL: {e}")
-    print("Troubleshooting tips:")
-    print("- Check if MySQL server is running.")
-    print("- Verify DB_USER, DB_PASSWORD, DB_HOST, DB_DATABASE environment variables.")
-    print("- Run MySQL client as admin to create/grant user privileges.")
+    print('error connecting')
     raise
 
-
 def execute_query(query, params=None, fetch=True, many=False, commit=False):
-    """Execute a query safely and return results when requested.
+    """
+    Execute a query safely and return results when requested.
 
-    - `query` is the SQL statement with %s placeholders for parameters.
-    - `params` is a tuple/list for execute or a list-of-tuples for executemany.
-    - `fetch` controls whether to return rows (True for SELECT).
-    - `many` uses `executemany` (for bulk inserts/updates).
-    - `commit` commits the transaction (for INSERT/UPDATE/DELETE).
+    - query is the SQL statement with %s placeholders for parameters.
+    - params is a tuple/list for execute or a list-of-tuples for executemany.
+    - fetch controls whether to return rows (True for SELECT).
+    - many uses executemany (for bulk inserts/updates).
+    - commit commits the transaction (for INSERT/UPDATE/DELETE).
     """
     cursor = connection.cursor()
+
     try:
         if many:
             cursor.executemany(query, params or [])
@@ -47,41 +44,35 @@ def execute_query(query, params=None, fetch=True, many=False, commit=False):
 
         if fetch:
             return cursor.fetchall()
+
         return None
+
     except Error as e:
         # Re-raise or handle logging here
         raise
+
     finally:
         cursor.close()
 
-"""Given the table to be inserted into and a list containing all the values to be inserted,
-   parses the table and values into formatted basic insert query string""" 
 def parse_insertion(table_name, values):
+    """Given the table to be inserted into and a list containing all the values to be inserted,
+    parses the table and values into formatted basic insert query string""" 
     str_values = [f"'{v}'" if isinstance(v, str) else str(v) for v in values]
     r = "INSERT INTO " + table_name + " VALUES (" + ", ".join(str_values) + ");"
     return r
 
 def insert_values(table, values):
-    cursor = connection.cursor()
-    cursor.execute(parse_insertion(table, values))
-    print(cursor.rowcount)
-    connection.commit()
-    cursor.close()
-
-def insert_values_test(fname, lname, age, table='testing'):
-    cursor = connection.cursor()
-    
-    l = [fname, lname, age]
-    cursor.execute(parse_insertion(table, l))
-    
-    
-    print(cursor.rowcount)
-    connection.commit()
-    
-    
-    cursor.close()
-    
-
+    """Given a table and a list of values to be inserted, inserts the values into the table 
+       assuming correct formatting."""
+    try:
+        cursor = connection.cursor()
+        cursor.execute(parse_insertion(table, values))
+        print(cursor.rowcount)
+        connection.commit()
+    except Error as e:
+        raise
+    finally:
+        cursor.close()
 
 
 def setup_user(admin_user='root', admin_password=None, target_user='AEToluca', target_password='04102810', host='127.0.0.1', database='tipbank'):
@@ -114,16 +105,19 @@ def setup_user(admin_user='root', admin_password=None, target_user='AEToluca', t
         admin_conn.close()
 
 
+
 if __name__ == "__main__":
     # Uncomment the next line to setup the user (requires admin password)
     # setup_user()
-    test = ["billy", "rick", 89]
+    test = [3, 21, 123.23, 30, 'CA', 'T']
     # Simple examples:
     # 1) SELECT all rows
-    rows = execute_query("SELECT * FROM testing;")
-    for r in rows or []:
+    rows = execute_query("SELECT * FROM ticket;") 
+    for r in rows or []: 
         print(r)
-    #insert_values('testing', test)
+    
+    
+    #insert_values('ticket', test)
 
     # 2) Parameterized SELECT (safe against injection)
     # user_id = 1
