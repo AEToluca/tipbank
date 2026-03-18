@@ -73,7 +73,8 @@ def insert_values(table, values):
         raise
     finally:
         cursor.close()
-
+def total_cash(date):
+    return 0;
 
 def setup_user(admin_user='root', admin_password=None, target_user='AEToluca', target_password='04102810', host='127.0.0.1', database='tipbank'):
     """Setup MySQL user with privileges using admin credentials.

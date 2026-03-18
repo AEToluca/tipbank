@@ -3,22 +3,24 @@ Party Size
 Table Number
 Bill Before Tip
 Tip amount
-Tip type (Credit, UPNGO, Cash)
+Tip type (Credit, UPNGO, Cash) Should be represented as CR, UP, or CS
 Check seperate or together
 --Data needed daily
 Date
 AM/PM
 --Data to be generated 
-Total Cash made
-Total Credit made
-Total UPNGO made
-Most sat table
-Total tips made
+Total Cash made that day
+Total Credit made that day
+Total UPNGO made that day
+Most sat table that day
+Total tips made that  day
 Average tip percentage of the day
 Tip percentage per check
 --General information wanted
 Average tip percentage
 
+TEST DATA:
+t1 = [1, ]
 
 
 
