@@ -12,7 +12,6 @@ AM/PM
 Total Cash made that day
 Total Credit made that day
 Total UPNGO made that day
-Most sat table that day
 Total tips made that  day
 Average tip percentage of the day
 Tip percentage per check

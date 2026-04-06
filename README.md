@@ -1,7 +1,16 @@
 # Tip Bank
 
-Local copy of the Tip Bank web app. Contains HTML, CSS and JS frontend files.
+- Author: Andy Estrada
 
-Instructions:
-- To run locally, open the `web` folder and open the HTML files in a browser.
-- To contribute, create a branch, make changes, commit, and push to GitHub.
+- A program designed to keep track of the tips made at my serving job, mellow mushroom. Each shift all of the checks from tables recorded onto a guest check. Information recorded each day includes:
+--Daily--
+    * Date
+    * AM or PM
+--Checkly--
+    * Party size
+    * Tip Amount
+    * Bill
+    * Tip Type (Cash, Credit, or UPNGO)
+    * Together or seperate checks
+
+Some shifts were not recorded due to being too busy or laziness. Any no tips are omitted to avoid outliers and it is difficult to evaluate the reason for a no tip.

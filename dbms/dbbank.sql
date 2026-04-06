@@ -7,7 +7,6 @@ CREATE TABLE ticket (
     shift_id INT NOT NULL,
     
     party_size INT NOT NULL,
-    table_number INT NOT NULL,
     
     bill_before_tip DECIMAL(10,2) NOT NULL,
     tip_amount DECIMAL(10,2) NOT NULL,
@@ -26,5 +25,3 @@ CREATE TABLE shifts (
     shift_date DATE NOT NULL,
     period ENUM('AM', 'PM') NOT NULL
 );
-
-SELECT SUM(tip_amount) FROM 

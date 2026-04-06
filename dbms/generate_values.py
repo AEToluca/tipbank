@@ -209,9 +209,18 @@ def average_daily(day):
     cursor.close()
     return result
 
-    def check_averages_daily(day):
-        #todo. perhaps put each check into a dict or list. Use check_id as key and calculate average for value
-        return
+def tip_percentages_daily(day):
+    cursor = connection.cursor()
+    cursor.execute("""
+                   SELECT check_id, (t.tip_amount / t.bill_before_tip) * 100 as tip_percentage
+                   FROM ticket t
+                   JOIN shifts s ON t.shift_id = s.shift_id
+                   WHERE s.shift_date = %s
+                   """, (day,))
+    #todo. perhaps put each check into a dict or list. Use check_id as key and calculate average for value
+    result = cursor.fetchall()
+    cursor.close()
+    return result
 
     
 if __name__ == "__main__":
@@ -222,3 +231,4 @@ if __name__ == "__main__":
     # 1) SELECT all rows
     print(is_double_shift('2024-10-28'))
     print(average_daily('2024-10-28'))
+    print(tip_percentages_daily('2024-10-28'))
