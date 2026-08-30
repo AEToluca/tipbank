@@ -2,24 +2,7 @@ import os
 from mysql import connector
 from mysql.connector import Error
 
-# Read credentials from environment variables (safer than hardcoding)
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_USER = os.getenv('DB_USER', 'AEToluca')
-DB_PASSWORD = os.getenv('DB_PASSWORD', '04102810')
-DB_DATABASE = os.getenv('DB_DATABASE', 'tipbank')
-
-# Connect to MySQL once (reuse connection in this module)
-try:
-    connection = connector.connect(
-        host=DB_HOST,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_DATABASE,
-    )
-    print("Connected to MySQL successfully.")
-except Error as e:
-    print('error connecting')
-    raise
+from db import connection
 
 def execute_query(query, params=None, fetch=True, many=False, commit=False):
     """
@@ -76,11 +59,16 @@ def insert_values(table, values):
 def total_cash(date):
     return 0;
 
-def setup_user(admin_user='root', admin_password=None, target_user='AEToluca', target_password='04102810', host='127.0.0.1', database='tipbank'):
+def setup_user(admin_user='root', admin_password=None, target_user=None, target_password=None, host='127.0.0.1', database=None):
     """Setup MySQL user with privileges using admin credentials.
     
     Call this once with admin creds to create/grant the target user.
     """
+    target_user = target_user or os.getenv("DB_USER", "AEToluca")
+    target_password = target_password or os.getenv("DB_PASSWORD")
+    database = database or os.getenv("DB_DATABASE", "tipbank")
+    if not target_password:
+        raise RuntimeError("DB_PASSWORD is not set.")
     if not admin_password:
         admin_password = input("Enter admin password: ")
     

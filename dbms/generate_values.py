@@ -1,26 +1,4 @@
-import os
-
-from mysql import connector
-from mysql.connector import Error
-
-# Read credentials from environment variables (safer than hardcoding)
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_USER = os.getenv('DB_USER', 'AEToluca')
-DB_PASSWORD = os.getenv('DB_PASSWORD', '04102810')
-DB_DATABASE = os.getenv('DB_DATABASE', 'tipbank')
-
-# Connect to MySQL once (reuse connection in this module)
-try:
-    connection = connector.connect(
-        host=DB_HOST,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_DATABASE,
-    )
-    print("Connected to MySQL successfully.")
-except Error as e:
-    print('error connecting')
-    raise
+from db import connection
 # Returns True if the given date was a double shift
 def is_double_shift(day):
     cursor = connection.cursor()
@@ -209,6 +187,7 @@ def average_daily(day):
     cursor.close()
     return result
 
+# Returns a dict of {check_id: tip_percentage} for the given day
 def tip_percentages_daily(day):
     cursor = connection.cursor()
     cursor.execute("""
@@ -217,10 +196,18 @@ def tip_percentages_daily(day):
                    JOIN shifts s ON t.shift_id = s.shift_id
                    WHERE s.shift_date = %s
                    """, (day,))
-    #todo. perhaps put each check into a dict or list. Use check_id as key and calculate average for value
+    result = {check_id: tip_percentage for check_id, tip_percentage in cursor.fetchall()}
+    cursor.close()
+    return result
+
+def show_all_ticket():
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM ticket")
     result = cursor.fetchall()
     cursor.close()
     return result
+
+
 
     
 if __name__ == "__main__":
@@ -232,3 +219,5 @@ if __name__ == "__main__":
     print(is_double_shift('2024-10-28'))
     print(average_daily('2024-10-28'))
     print(tip_percentages_daily('2024-10-28'))
+    print(show_all_ticket())
+    
